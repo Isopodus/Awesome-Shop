@@ -1,9 +1,7 @@
 module API
   class ProductsController < ApplicationController
     def index
-      products = ['Product 1', 'Product 2']
-
-      render json: { products: products }
+      render json: { products: Product.all }
     end
   end
 end

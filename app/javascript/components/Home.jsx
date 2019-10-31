@@ -1,8 +1,8 @@
 import React from 'react'
+import Products from "./Products";
 
 function Home(props) {
     let loginButton;
-    console.log(props);
     if (props.data.userSignedIn) {
         loginButton = <a href="/users/sign_out" data-method="delete" rel="nofollow">Log out</a>
     }
@@ -17,6 +17,9 @@ function Home(props) {
             Welcome, {props.data.userSignedIn ? props.data.user.username : "Guest"}!<br/>
             {loginButton}<br/>
             <a href="/users/sign_up">Sign up</a>
+
+            <br/>
+            <Products/>
         </div>
     )
 }
