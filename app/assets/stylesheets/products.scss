@@ -1,3 +1,11 @@
 // Place all the styles related to the products controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$contrast_color: #999999;
+
+.product {
+  background: $contrast_color;
+  margin: 5px;
+  padding: 10px;
+  display: inline-block;
+}

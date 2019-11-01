@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'pages#index'
 
   namespace :api, defaults: { format: 'json' } do
-    resources :products, only: :index
+    resources :products, only: [:index, :create, :update, :destroy]
   end
 
   # IMPORTANT #

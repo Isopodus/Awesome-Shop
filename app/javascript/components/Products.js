@@ -1,34 +1,39 @@
-import React from 'react'
-import {useState, useEffect} from "react";
+import React, {Component} from 'react'
 import axios from 'axios'
 
-function Products(props) {
-    const [products, setProducts] = useState([]);
+class Products extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {products: []};
+    }
 
-    useEffect(() => {
+    componentDidMount() {
         axios
             .get('/api/products')
             .then(response => {
-                setProducts(response.data.products);
+                this.setState({products: response.data});
             });
-    }, []);
+    }
 
-    const productsRendered = products.map(function(product){
+    render() {
+        console.log(this.state);
+        const productsRendered = this.state.products.map(function (product) {
+            return (
+                <div className="product" key={product.id}>
+                    {product.name}<br/>
+                    {product.description}<br/>
+                    <b>{product.price}$</b>
+                </div>
+            );
+        });
+
         return (
-            <div className="product_block">
-                {product.name}<br/>
-                {product.description}<br/>
-                <b>{product.price}$</b>
+            <div className="products">
+                <br/>
+                {productsRendered}
             </div>
-        );
-    })
-
-    return (
-        <div className="products_block">
-            <br/>
-            {productsRendered}
-        </div>
-    )
+        )
+    }
 }
 
 export default Products
