@@ -8,5 +8,7 @@ Rails.application.routes.draw do
 
   # IMPORTANT #
   # This `match` must be the *last* route in routes.rb
-  match '*path', to: 'pages#index', via: :all
+  match '*path', to: 'pages#index', via: :all, constraints: lambda { |req|
+    req.path.exclude? 'rails/active_storage'
+  }
 end

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import Product from "./Product";
 
-class Products extends Component {
+class ProductsBlock extends Component {
     constructor(props) {
         super(props);
         this.state = {products: []};
@@ -16,19 +17,12 @@ class Products extends Component {
     }
 
     render() {
-        console.log(this.state);
         const productsRendered = this.state.products.map(function (product) {
-            return (
-                <div className="product" key={product.id}>
-                    {product.name}<br/>
-                    {product.description}<br/>
-                    <b>{product.price}$</b>
-                </div>
-            );
-        });
+            return <Product product={product} data={this.props.data} key={product.id}/>;
+        }, this);
 
         return (
-            <div className="products">
+            <div className="products_block">
                 <br/>
                 {productsRendered}
             </div>
@@ -36,4 +30,4 @@ class Products extends Component {
     }
 }
 
-export default Products
+export default ProductsBlock

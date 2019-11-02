@@ -3,7 +3,7 @@ module API
     respond_to :json
 
     def index
-      respond_with Product.order(id: :ASC)
+      respond_with Product.order(id: :ASC), methods: :image_url
     end
 
     def create
@@ -26,7 +26,8 @@ module API
       params.require(:product).permit(
           :name,
           :description,
-          :price
+          :price,
+          :image
       )
     end
   end
