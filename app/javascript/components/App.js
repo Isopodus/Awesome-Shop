@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Cookies from 'universal-cookie';
-//import RingLoader from 'react-spinners/ClipLoader';
 import Home from './Home'
 import ProductAdd from "./ProductAdd";
 import ProductEdit from "./ProductEdit";
@@ -51,6 +50,7 @@ class App extends Component {
                             <Route exact path="/edit_product/:id" component={(props) => <ProductEdit
                                 user={this.state.user}
                                 {...props}/>}/>
+                            <Redirect to='/'/>
                         </Switch>
                     </BrowserRouter>
                 ) : (
