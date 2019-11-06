@@ -18,7 +18,10 @@ class ProductsBlock extends Component {
 
     render() {
         const productsRendered = this.state.products.map(function (product) {
-            return <Product product={product} data={this.props.data} key={product.id}/>;
+            return <Product
+                product={product}
+                key={product.id}
+                user={this.props.user}/>;
         }, this);
 
         return (

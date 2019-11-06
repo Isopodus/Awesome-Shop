@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import $ from 'jquery'
 
-class ProductAddForm extends Component {
+class ProductEdit extends Component {
 
     constructor(props) {
         super(props);
@@ -19,8 +19,22 @@ class ProductAddForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
-        //event.preventDefault();
+    componentDidMount() {
+        axios
+            .get('/api/products/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    name: response.data.name,
+                    description: response.data.description,
+                    price: response.data.price,
+                    image_url: response.data.image_url
+                });
+                console.log(response.data);
+            });
+    }
+
+
+    handleSubmit() {
         const formData = new FormData();
         formData.append('product[name]', this.state.name);
         formData.append('product[description]', this.state.description);
@@ -30,8 +44,8 @@ class ProductAddForm extends Component {
         }
 
         $.ajax({
-            url: '/api/products',
-            method: 'POST',
+            url: '/api/products/' + this.props.match.params.id,
+            method: 'PATCH',
             data: formData,
             contentType: false,
             processData: false
@@ -60,27 +74,27 @@ class ProductAddForm extends Component {
     }
 
     render() {
-        console.log(this.state);
-        const prewiew = this.state.image_url ? <img className="" src={this.state.image_url} alt="Prewiew"/> : null;
+        const preview = this.state.image_url ?
+            <img src={this.state.image_url} alt="Preview" className="preview_image"/> : null;
         return (
             <div className="product_add">
-                {this.props.data.user && this.props.data.user.role === 1 ? (
+                {this.props.user && this.props.user.role === 1 ? (
                     <div>
                         <h1>Hello, admin!</h1>
                         <form onSubmit={this.handleSubmit}>
                             Name:<br/>
-                            <input type="text" name="name" onChange={this.handleChange} required/><br/>
+                            <input type="text" name="name" onChange={this.handleChange} required defaultValue={this.state.name}/><br/>
                             Description:<br/>
-                            <textarea name="description" onChange={this.handleChange}/><br/>
+                            <textarea name="description" onChange={this.handleChange} defaultValue={this.state.description}/><br/>
                             Price:<br/>
                             <input type="number" step="0.01" min="0" name="price" onChange={this.handleChange}
-                                   required/><br/>
+                                   required value={this.state.price}/><br/>
                             Image:<br/>
                             <input type="file" name="image" accept=".jpg, .jpeg, .png, .gif"
-                                   onChange={this.handleFile}/><br/>
-                            {prewiew}
+                                   onChange={this.handleFile} defaultValue={this.state.image_url}/><br/>
+                            {preview}
                             <br/><br/>
-                            <input type="submit" value="Add new product"/>
+                            <input type="submit" value="Submit editing"/>
                         </form>
                         <br/>
                         <a href="/">To the main page</a>
@@ -93,4 +107,4 @@ class ProductAddForm extends Component {
     }
 }
 
-export default ProductAddForm
+export default ProductEdit

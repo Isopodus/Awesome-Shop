@@ -6,6 +6,10 @@ module API
       respond_with Product.order(id: :ASC), methods: :image_url
     end
 
+    def find
+      respond_with Product.find(params[:id]), methods: :image_url
+    end
+
     def create
       respond_with :api, Product.create(product_params)
     end

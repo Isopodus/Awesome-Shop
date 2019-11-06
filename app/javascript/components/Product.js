@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import defaultImage from 'images/default_image.png'
+import {Redirect} from "react-router-dom";
 
 class Product extends Component {
     constructor(props) {
         super(props);
         this.deleteProduct = this.deleteProduct.bind(this);
+        //this.editProduct = this.editProduct.bind(this);
     }
 
     deleteProduct(productId) {
@@ -30,13 +32,18 @@ class Product extends Component {
                 {this.props.product.description}<br/>
                 <b>{this.props.product.price}$</b><br/>
                 {this.props.product.image_url != null ? (
-                    <img src={this.props.product.image_url} alt="Image" className="product_image"/>
+                    <div style={{backgroundImage: 'url(' + this.props.product.image_url + ')'}}
+                         className="product_image"/>
                 ) : (
-                    <img src={defaultImage} alt="Image" className="product_image"/>
+                    <div style={{backgroundImage: 'url(' + defaultImage + ')'}} className="product_image"/>
                 )}
                 <br/>
-                {this.props.data.user && this.props.data.user.role === 1 && (
-                    <button onClick={() => this.deleteProduct(this.props.product.id)}>Delete product</button>
+                {this.props.user && this.props.user.role === 1 && (
+                    <div>
+                        <a onClick={() => this.deleteProduct(this.props.product.id)} className="button_link">Delete product</a>
+                        <br/>
+                        <a href={'/edit_product/' + this.props.product.id} className="button_link">Edit product</a>
+                    </div>
                 )}
             </div>
         )

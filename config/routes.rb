@@ -4,6 +4,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     resources :products, only: [:index, :create, :update, :destroy]
+    get "products/:id" => "products#find"
+  end
+
+  devise_scope :user do
+    get "users/:id" => "users#index", defaults: { format: 'json' }
   end
 
   # IMPORTANT #

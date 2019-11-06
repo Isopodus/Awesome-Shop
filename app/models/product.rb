@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_one_attached :image
-  validates :name, :price, :photo, presence: true
+  validates :name, :price, presence: true
 
   # Custom validation
   # validate :ensure_field
