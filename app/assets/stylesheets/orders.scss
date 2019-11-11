@@ -1,0 +1,38 @@
+// Place all the styles related to the order controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.orders_block {
+  text-align: center;
+}
+
+.orders_table {
+  border: solid 1px black;
+  border-collapse: collapse;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+
+  td, th {
+    border: solid 2px black;
+    padding: 5px;
+  }
+
+  .order_row:hover {
+    background-color: #c8c8c8;
+    cursor: pointer;
+  }
+
+  .blue_order {
+    background: #7a9cff;
+  }
+
+  .green_order {
+    background: #7fff5e;
+  }
+
+  .yellow_order {
+    background: #f4ff5f;
+  }
+
+}

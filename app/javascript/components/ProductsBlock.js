@@ -6,9 +6,10 @@ class ProductsBlock extends Component {
     constructor(props) {
         super(props);
         this.state = {products: []};
+        this.reloadProducts = this.reloadProducts.bind(this);
     }
 
-    componentDidMount() {
+    reloadProducts() {
         axios
             .get('/api/products')
             .then(response => {
@@ -16,12 +17,19 @@ class ProductsBlock extends Component {
             });
     }
 
+    componentDidMount() {
+        this.reloadProducts()
+    }
+
     render() {
-        const productsRendered = this.state.products.map(function (product) {
+        const productsRendered = this.state.products.map((product) => {
             return <Product
                 product={product}
                 key={product.id}
-                user={this.props.user}/>;
+                user={this.props.user}
+                order={this.props.order}
+                orderHandler={this.props.orderHandler}
+                reloadProducts={this.reloadProducts}/>;
         }, this);
 
         return (

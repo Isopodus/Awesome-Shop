@@ -5,11 +5,13 @@ $contrast_color: #999999;
 
 .product {
   background: $contrast_color;
+  min-width: 200px;
   width: 15%;
   height: 15%;
   margin: 5px;
   padding: 10px;
   display: inline-block;
+  text-align: center;
 }
 
 .product_image {
@@ -28,14 +30,19 @@ $contrast_color: #999999;
 .button_link {
   cursor: pointer;
   text-decoration: none;
-  display: block;
   width: 70%;
   height: 5%;
   padding: 3px;
+  margin: 5px;
   background: #CCCCCC;
   text-align: center;
   color: black;
+  display: inline-block;
 }
 .button_link:hover {
   background: #666666;
+}
+
+.inline {
+  display: inline-block;
 }

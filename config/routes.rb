@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :sessions => 'users' }
   root 'pages#index'
 
-  namespace :api, defaults: { format: 'json' } do
+  namespace :api, defaults: {format: 'json'} do
     resources :products, only: [:index, :create, :update, :destroy]
-    get "products/:id" => "products#find"
+    resources :orders, only: [:index, :create, :update, :destroy]
+    get "orders/confirm_order/:id" => "orders#confirm_order"
   end
 
   devise_scope :user do
-    get "users/:id" => "users#index", defaults: { format: 'json' }
+    get "users/:id" => "users#index", defaults: {format: 'json'}
+    get "users/set_active_order/:id" => "users#set_active_order"
   end
 
   # IMPORTANT #

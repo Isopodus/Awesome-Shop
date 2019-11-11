@@ -30,7 +30,7 @@ function SignUpForm(props) {
             <div className="actions">
                 <input type="submit" name="commit" value="Sign up" data-disable-with="Sign up"/>
             </div>
-            <a href="/">Back to the main page</a>
+            <a to="/">Back to the main page</a>
         </div>
     )
 }

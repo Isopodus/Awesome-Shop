@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
   def index
-    cookies[:user_id] = user_signed_in? ? current_user.id : nil
+    if user_signed_in?
+      cookies[:user_id] = current_user.id
+    else
+      cookies.delete :user_id
+    end
   end
 end

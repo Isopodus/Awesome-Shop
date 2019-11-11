@@ -12,6 +12,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "jquery": "^3.4.1",
     "prop-types": "^15.7.2",
+    "qs": "^6.9.1",
     "react": "^16.11.0",
     "react-activestorage-provider": "^0.8.0",
     "react-dom": "^16.11.0",

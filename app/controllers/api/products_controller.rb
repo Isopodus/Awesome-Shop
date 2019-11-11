@@ -3,11 +3,11 @@ module API
     respond_to :json
 
     def index
-      respond_with Product.order(id: :ASC), methods: :image_url
-    end
-
-    def find
-      respond_with Product.find(params[:id]), methods: :image_url
+      if params[:ids]
+        respond_with Product.where(id: params[:ids]).order(id: :ASC), methods: :image_url
+      else
+        respond_with Product.order(id: :ASC), methods: :image_url
+      end
     end
 
     def create
@@ -19,7 +19,7 @@ module API
     end
 
     def update
-      product = Product.find(params['id'])
+      product = Product.find(params[:id])
       product.update(product_params)
       respond_with Product, json: product
     end
@@ -31,7 +31,8 @@ module API
           :name,
           :description,
           :price,
-          :image
+          :image,
+          ids: []
       )
     end
   end

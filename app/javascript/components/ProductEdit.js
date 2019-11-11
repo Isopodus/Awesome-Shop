@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import $ from 'jquery'
+import {Link} from "react-router-dom";
 
 class ProductEdit extends Component {
 
@@ -21,20 +22,24 @@ class ProductEdit extends Component {
 
     componentDidMount() {
         axios
-            .get('/api/products/' + this.props.match.params.id)
+            .get('/api/products',{
+                params: {
+                    ids: [this.props.match.params.id]
+                }
+            })
             .then(response => {
                 this.setState({
-                    name: response.data.name,
-                    description: response.data.description,
-                    price: response.data.price,
-                    image_url: response.data.image_url
+                    name: response.data[0].name,
+                    description: response.data[0].description,
+                    price: response.data[0].price,
+                    image_url: response.data[0].image_url
                 });
-                console.log(response.data);
             });
     }
 
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         const formData = new FormData();
         formData.append('product[name]', this.state.name);
         formData.append('product[description]', this.state.description);
@@ -97,7 +102,7 @@ class ProductEdit extends Component {
                             <input type="submit" value="Submit editing"/>
                         </form>
                         <br/>
-                        <a href="/">To the main page</a>
+                        <Link to="/">To the main page</Link>
                     </div>
                 ) : (
                     <h1>403 - Forbidden</h1>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import $ from 'jquery'
+import {Link} from "react-router-dom";
 
 class ProductAdd extends Component {
 
@@ -18,7 +19,7 @@ class ProductAdd extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
         const formData = new FormData();
         formData.append('product[name]', this.state.name);
         formData.append('product[description]', this.state.description);
@@ -34,9 +35,9 @@ class ProductAdd extends Component {
             contentType: false,
             processData: false
 
-        }).then((response) => {
+        }).done(response => {
             //console.log(response);
-        }).catch((error) => {
+        }).fail((error) => {
             console.log(error);
         });
     }
@@ -58,7 +59,8 @@ class ProductAdd extends Component {
     }
 
     render() {
-        const preview = this.state.image_url ? <img src={this.state.image_url} alt="Preview" className="preview_image"/> : null;
+        const preview = this.state.image_url ?
+            <img src={this.state.image_url} alt="Preview" className="preview_image"/> : null;
         return (
             <div className="product_add">
                 {this.props.user && this.props.user.role === 1 ? (
@@ -80,10 +82,13 @@ class ProductAdd extends Component {
                             <input type="submit" value="Add new product"/>
                         </form>
                         <br/>
-                        <a href="/">To the main page</a>
+                        <Link to="/">To the main page</Link>
                     </div>
                 ) : (
-                    <h1>403 - Forbidden</h1>
+                    <div>
+                        <h1>403 - Forbidden</h1><br/>
+                        <Link to="/">To the main page</Link>
+                    </div>
                 )}
             </div>
         )

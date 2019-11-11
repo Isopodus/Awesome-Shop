@@ -1,13 +1,21 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import defaultImage from 'images/default_image.png'
-import {Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 class Product extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            quantity: 1
+        };
         this.deleteProduct = this.deleteProduct.bind(this);
-        //this.editProduct = this.editProduct.bind(this);
+        this.addToCart = this.addToCart.bind(this);
+        this.handleQuantity = this.handleQuantity.bind(this);
+    }
+
+    handleQuantity(event) {
+        this.setState({quantity: event.target.value});
     }
 
     deleteProduct(productId) {
@@ -16,12 +24,38 @@ class Product extends Component {
                 .delete(`/api/products/${productId}`)
                 .then((response) => {
                     if (response.status === 204) {
-                        window.location.reload();
+                        this.props.reloadProducts();
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
+        }
+    }
+
+    addToCart(id, name, description, quantity, price) {
+        if (this.props.user) {
+            let item = {
+                order_id: this.props.order.id,
+                quantity: quantity,
+                product: {
+                    id: id,
+                    name: name,
+                    description: description,
+                    price: price
+                }
+            };
+            let oldOrder = this.props.order;
+            let oldItem = oldOrder.order_items.find(currItem => currItem.product.id === item.product.id);
+            if (oldItem) {
+                oldOrder.order_items[oldOrder.order_items.findIndex(obj => obj === oldItem)].quantity += item.quantity;
+            } else {
+                oldOrder.order_items.push(item);
+            }
+
+            this.props.orderHandler(oldOrder);
+        } else {
+            window.location.href = 'users/sign_in';
         }
     }
 
@@ -40,11 +74,20 @@ class Product extends Component {
                 <br/>
                 {this.props.user && this.props.user.role === 1 && (
                     <div>
-                        <a onClick={() => this.deleteProduct(this.props.product.id)} className="button_link">Delete product</a>
+                        <a onClick={() => this.deleteProduct(this.props.product.id)} className="button_link">Delete
+                            product</a>
                         <br/>
-                        <a href={'/edit_product/' + this.props.product.id} className="button_link">Edit product</a>
+                        <Link to={'/edit_product/' + this.props.product.id} className="button_link">Edit product</Link>
                     </div>
                 )}
+                <input type="number" min="1" max="100" defaultValue="1" onChange={this.handleQuantity}/>
+                <a onClick={() => this.addToCart(
+                    this.props.product.id,
+                    this.props.product.name,
+                    this.props.product.description,
+                    Number(this.state.quantity),
+                    Number(this.props.product.price))
+                } className="button_link">Add to cart</a>
             </div>
         )
     }

@@ -1,0 +1,17 @@
+.cart_table {
+  border: solid 1px black;
+  border-collapse: collapse;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+
+  td, th {
+    border: solid 2px black;
+    padding: 5px;
+  }
+
+  .order_item_row:hover {
+    background-color: #c8c8c8;
+    cursor: pointer;
+  }
+}
