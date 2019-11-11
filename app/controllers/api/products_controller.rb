@@ -19,7 +19,7 @@ module API
     end
 
     def update
-      product = Product.find(params[:id])
+      product = Product.find_by(id: params[:id])
       product.update(product_params)
       respond_with Product, json: product
     end

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import OrderItem from "./OrderItem";
+import CartItem from "./CartItem";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
@@ -15,14 +15,21 @@ class Cart extends Component {
     }
 
     confirmOrder() {
-        axios
-            .get('/api/orders/confirm_order/' + this.props.order.id)
-            .then(response => {
-                if (response.status === 200) {
-                    window.location.reload();
-                    //console.log(response.data);
-                }
-            });
+        if (this.props.order.order_items.length > 0) {
+            this.saveOrder();
+            axios
+                .get('/api/orders/confirm_order/' + this.props.order.id)
+                .then(response => {
+                    if (response.status === 200) {
+                        window.location.reload();
+                        //console.log(response.data);
+                    }
+                });
+        } else {
+            this.setState({
+                notice: <p>You can not confirm an empty order!</p>
+            })
+        }
     }
 
     saveOrder() {
@@ -54,14 +61,16 @@ class Cart extends Component {
 
     render() {
         if (this.props.user) {
-            // Check if user has items in cart
-            if (this.props.order.order_items.length > 0 && this.props.order.status === 0) {
+            // Check if this order is active
+            if (this.props.order.status === 0) {
                 let total = 0;
                 const itemsRendered = this.props.order.order_items.map((item) => {
                     total += item.quantity * item.product.price;
                     return (
-                        <OrderItem
+                        <CartItem
                             itemData={item}
+                            order={this.props.order}
+                            orderHandler={this.props.orderHandler}
                             key={item.product.id}
                         />
                     )
@@ -76,6 +85,7 @@ class Cart extends Component {
                                 <th>Quantity</th>
                                 <th>Unit price</th>
                                 <th>Summary price</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -93,12 +103,13 @@ class Cart extends Component {
                     </div>
                 )
             } else {
-                return (
+                render(
                     <div>
-                        <h3>You currently have no items in your cart</h3><br/>
+                        <h2>You have no active order chosen</h2>
+                        <br/>
                         <Link to="/">To the main page</Link>
                     </div>
-                );
+                )
             }
         } else {
             window.location.href = '/';

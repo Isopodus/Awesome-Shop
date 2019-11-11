@@ -3,7 +3,7 @@ class OrderSerializer < ActiveModel::Serializer
 
   def order_items
     self.object.order_items.map do |order_item|
-      product = Product.find(order_item.product_id)
+      product = Product.find_by(id: order_item.product_id)
       {
           id: order_item.id,
           order_id: order_item.order_id,

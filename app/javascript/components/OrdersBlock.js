@@ -7,11 +7,11 @@ class OrdersBlock extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = {
-        //     orders: [],
-        //     loaded: false
-        // };
+        this.state = {
+            notice: null
+        };
         this.createBlankOrder = this.createBlankOrder.bind(this);
+        this.setNotice = this.setNotice.bind(this);
     }
 
     createBlankOrder() {
@@ -26,44 +26,11 @@ class OrdersBlock extends Component {
             })
     }
 
-    // componentDidMount() {
-    //     let productsIds = [];
-    //     this.props.user.orders.forEach(order => {
-    //         order.order_items.forEach(item => {
-    //             productsIds.push(item.product_id);
-    //         })
-    //     });
-    //     axios
-    //         .get('/api/products', {
-    //             params: {
-    //                 ids: productsIds
-    //             }
-    //         })
-    //         .then(response => {
-    //             this.setState((state, props) => ({
-    //                 orders: props.user.orders.map((order) => {
-    //                     return {
-    //                         id: order.id,
-    //                         status: order.status,
-    //                         user_id: order.user_id,
-    //                         order_items: order.order_items.map((item) => {
-    //                             Object.assign(item, {
-    //                                 unit_price: Number(response.data.find(product => product.id === item.product_id).price)
-    //                             });
-    //                             return item;
-    //                         })
-    //                     }
-    //                 }),
-    //                 loaded: true
-    //             }));
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //             this.setState({
-    //                 loaded: true
-    //             })
-    //         });
-    // }
+    setNotice(notice) {
+        this.setState({
+            notice: notice
+        })
+    }
 
     render() {
         if (this.props.user) {
@@ -73,6 +40,7 @@ class OrdersBlock extends Component {
                         <Order
                             user={this.props.user}
                             orderData={order}
+                            setNotice={this.setNotice}
                             key={order.id}
                         />
                     )
@@ -94,6 +62,7 @@ class OrdersBlock extends Component {
                             {ordersRendered}
                             </tbody>
                         </table><br/>
+                        {this.state.notice}<br/>
                         <button onClick={this.createBlankOrder}>Create new order</button><br/><br/>
                         <Link to="/">To the main page</Link>
                     </div>

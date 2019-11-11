@@ -2,10 +2,6 @@ module API
   class OrdersController < ApplicationController
     respond_to :json
 
-    def index
-      respond_with Order.all
-    end
-
     def create
       existing_order = Order.find_by(id: order_params[:id])
       if !existing_order
@@ -34,11 +30,11 @@ module API
     end
 
     def destroy
-      Order.find(params[:id])&.destroy
+      respond_with Order.find_by(id: params[:id])&.destroy
     end
 
     def confirm_order
-      order = Order.find(params[:id])
+      order = Order.find_by(id: params[:id])
       order.status = 1
       order.save
       respond_with Order, json: order
@@ -49,25 +45,17 @@ module API
     def update_order(id)
       order = Order.find_by(id: id)
       if order and order.status == 0
-        order_params[:order_items].each { |item|
-          new_item = {
-              order_id: order.id,
-              quantity: item[:quantity],
-              product_id: item[:product][:id]
-          }
-          existing_item = false
-          order.order_items.each do |current_item|
-            if current_item.product_id == item[:product][:id]
-              existing_item = true
-              current_item.update(new_item)
-              break
-            end
-          end
-
-          unless existing_item
-            OrderItem.create!(new_item)
-          end
-        }
+        order.order_items.each do |item|
+          item.destroy
+        end
+        order_params[:order_items].each do |item|
+          OrderItem.create!(
+              {
+                  order_id: order.id,
+                  quantity: item[:quantity],
+                  product_id: item[:product][:id]
+              })
+        end
       end
       order
     end
@@ -78,7 +66,7 @@ module API
           :user_id,
           order_items: [:order_id,
                         :quantity,
-                        product: [:id, :name, :description, :price]]
+                        product: [:id, :name, :description, :price, :image_url]]
       )
     end
   end

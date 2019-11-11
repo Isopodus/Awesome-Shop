@@ -4,8 +4,13 @@ import axios from "axios";
 class Order extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            notice: null
+        };
+
         this.setActive = this.setActive.bind(this);
         this.confirmOrder = this.confirmOrder.bind(this);
+        this.deleteOrder = this.deleteOrder.bind(this);
     }
 
     setActive() {
@@ -16,6 +21,9 @@ class Order extends Component {
                     window.location.reload();
                     //console.log(response.data);
                 }
+            })
+            .catch(error => {
+                console.log(error);
             });
     }
 
@@ -27,7 +35,30 @@ class Order extends Component {
                     window.location.reload();
                     //console.log(response.data);
                 }
+            })
+            .catch(error => {
+                console.log(error);
             });
+    }
+
+    deleteOrder() {
+        if (window.confirm("Are you sure?")) {
+            if (this.props.user.checked_order_id !== this.props.orderData.id) {
+                axios
+                    .delete('/api/orders/' + this.props.orderData.id)
+                    .then(response => {
+                        if (response.status === 204) {
+                            window.location.reload();
+                            //console.log(response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                this.props.setNotice(<p>Please set another order active before deleting this</p>);
+            }
+        }
     }
 
     render() {
@@ -61,17 +92,23 @@ class Order extends Component {
                 <button onClick={this.setActive}>Set active</button>
                 <br/>
                 <button onClick={this.confirmOrder}>Confirm</button>
+                <br/>
+                <button onClick={this.deleteOrder}>Delete</button>
             </>
         } else if (this.props.orderData.status === 0) {
-            buttons = <button onClick={this.confirmOrder}>Confirm</button>
+            buttons = <>
+                <button onClick={this.confirmOrder}>Confirm</button>
+                <br/>
+                <button onClick={this.deleteOrder}>Delete</button>
+            </>
         }
 
         let className;
         if (this.props.user.checked_order_id === this.props.orderData.id) {
             className = 'blue_order';
-        } else if (this.props.orderData.status === 1 || this.props.orderData.status === 2){
+        } else if (this.props.orderData.status === 1 || this.props.orderData.status === 2) {
             className = 'yellow_order';
-        } else if (this.props.orderData.status === 3){
+        } else if (this.props.orderData.status === 3) {
             className = 'green_order';
         } else {
             className = 'order_row';

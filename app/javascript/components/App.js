@@ -22,17 +22,6 @@ class App extends Component {
             },
             loaded: false
         };
-
-        if (!localStorage.getItem('order')) {
-            localStorage.setItem('order', JSON.stringify(this.state.order));
-        } else {
-            this.state = {
-                user: null,
-                order: JSON.parse(localStorage.getItem('order')),
-                loaded: false
-            };
-        }
-
         this.orderHandler = this.orderHandler.bind(this);
         this.reloadUser = this.reloadUser.bind(this);
     }
@@ -41,7 +30,6 @@ class App extends Component {
         this.setState({
             order: order
         });
-        localStorage.setItem('order', JSON.stringify(order));
     }
 
     reloadUser() {
