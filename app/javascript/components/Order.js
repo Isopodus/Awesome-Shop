@@ -104,7 +104,7 @@ class Order extends Component {
         }
 
         let className;
-        if (this.props.user.checked_order_id === this.props.orderData.id) {
+        if (this.props.user.checked_order_id === this.props.orderData.id && this.props.orderData.status === 0) {
             className = 'blue_order';
         } else if (this.props.orderData.status === 1 || this.props.orderData.status === 2) {
             className = 'yellow_order';

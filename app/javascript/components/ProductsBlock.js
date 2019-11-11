@@ -7,18 +7,25 @@ class ProductsBlock extends Component {
         super(props);
         this.state = {products: []};
         this.reloadProducts = this.reloadProducts.bind(this);
+        this._isMounted = false;
     }
 
     reloadProducts() {
         axios
             .get('/api/products')
             .then(response => {
-                this.setState({products: response.data});
+                if(this._isMounted) {
+                    this.setState({products: response.data});
+                }
             });
     }
 
     componentDidMount() {
-        this.reloadProducts()
+        this.reloadProducts();
+        this._isMounted = true;
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {

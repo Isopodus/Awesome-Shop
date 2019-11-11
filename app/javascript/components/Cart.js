@@ -103,7 +103,7 @@ class Cart extends Component {
                     </div>
                 )
             } else {
-                render(
+                return (
                     <div>
                         <h2>You have no active order chosen</h2>
                         <br/>
