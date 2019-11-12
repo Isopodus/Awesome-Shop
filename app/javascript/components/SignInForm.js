@@ -26,7 +26,7 @@ function SignInForm(props) {
                 <input type="submit" name="commit" value="Log in" data-disable-with="Log in"/>
             </div>
             <br/>
-            <a to="/">Back to the main page</a>
+            <a href="/">Back to the main page</a>
         </div>
     )
 }

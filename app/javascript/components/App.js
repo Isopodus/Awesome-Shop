@@ -15,15 +15,14 @@ class App extends Component {
         this.state = {
             user: null,
             order: {
-                id: null,
+                order_id: null,
                 user_id: null,
-                status: null,
-                order_items: []
+                status: -1,
+                products: []
             },
             loaded: false
         };
         this.orderHandler = this.orderHandler.bind(this);
-        this.reloadUser = this.reloadUser.bind(this);
     }
 
     orderHandler(order) {
@@ -32,7 +31,7 @@ class App extends Component {
         });
     }
 
-    reloadUser() {
+    componentDidMount() {
         const cookies = new Cookies();
         if (cookies.get("user_id")) {
             axios
@@ -41,9 +40,18 @@ class App extends Component {
                     if (response.status === 200) {
                         this.setState({
                             user: response.data,
+                            order: {
+                                order_id: null,
+                                user_id: response.data.id,
+                                status: -1,
+                                products: []
+                            },
                             loaded: true
                         });
-                        this.orderHandler(response.data.orders.find(order => order.id === response.data.checked_order_id));
+                        let order = response.data.orders.find(order => order.order_id === response.data.checked_order_id);
+                        if (order) {
+                            this.orderHandler(order);
+                        }
                     }
                 })
                 .catch(error => {
@@ -55,10 +63,6 @@ class App extends Component {
             });
             localStorage.clear();
         }
-    }
-
-    componentDidMount() {
-        this.reloadUser();
     }
 
     render() {

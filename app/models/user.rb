@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
 
-  validates :username, presence: :true, uniqueness: { case_sensitive: false }
+  validates :username, presence: :true, uniqueness: {case_sensitive: false}
 
-  has_many :orders, ->{ order(status: :DESC, id: :ASC)}
+  has_many :orders, -> { order(status: :DESC, order_id: :ASC) }
+
 end

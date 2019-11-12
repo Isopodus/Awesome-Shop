@@ -1,15 +1,18 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :status, :user_id, :order_items, :created_at
+  attributes :order_id, :user_id, :status, :products, :created_at
 
-  def order_items
-    self.object.order_items.map do |order_item|
-      product = Product.find_by(id: order_item.product_id)
-      {
-          id: order_item.id,
-          order_id: order_item.order_id,
-          quantity: order_item.quantity,
-          product: ProductSerializer.new(product)
-      }
-    end
+  def products
+    orders = Order.where(order_id: object.order_id)
+    orders.map { |order_row|
+      product = Product.find_by(id: order_row.product_id)
+      if product
+        {
+            quantity: order_row.quantity,
+            product: ProductSerializer.new(product)
+        }
+      else
+        nil
+      end
+    }.compact
   end
 end

@@ -3,70 +3,62 @@ module API
     respond_to :json
 
     def create
-      existing_order = Order.find_by(id: order_params[:id])
-      if !existing_order
-        order = Order.create!(
-            {
-                user_id: order_params[:user_id]
-            })
-        if order_params[:order_items]
-          order_params[:order_items].each { |item|
-            OrderItem.create!(
-                {
-                    order_id: order.id,
-                    quantity: item[:quantity],
-                    product_id: item[:product][:id]
-                })
-          }
-        end
-        respond_with Order, json: order
-      else
-        respond_with Order, json: update_order(existing_order.id)
-      end
-    end
+      # Determine if we have *order_id* param
+      if order_params[:order_id]
+        order_id = order_params[:order_id]
 
-    def update
-      respond_with Order, json: update_order(params[:id])
+        # Destroy old order rows
+        Order.where(order_id: order_id).each do |order_row|
+          order_row.destroy
+        end
+      else # Set *order_id* to next id or 1 (if no rows exists)
+        order_id = Order.maximum(:order_id)&.next
+        unless order_id
+          order_id = 1
+        end
+      end
+
+      # Parse params as order rows and create them
+      order_params[:products].map { |product|
+        Order.create!(
+            {
+                order_id: order_id,
+                user_id: order_params[:user_id],
+                status: order_params[:status],
+                quantity: product[:quantity],
+                product_id: product[:product][:id]
+            })
+      }.compact
+      respond_with Order, json: Order.find_by(order_id: order_id)
     end
 
     def destroy
-      respond_with Order.find_by(id: params[:id])&.destroy
+      Order.where(order_id: params[:id]).each do |order_row|
+        order_row.destroy
+      end
+      respond_with true
     end
 
     def confirm_order
-      order = Order.find_by(id: params[:id])
-      order.status = 1
-      order.save
-      respond_with Order, json: order
+      Order.where(order_id: params[:id]).each do |order_row|
+        order_row.status = 1
+        order_row.save
+      end
+      respond_with Order, json: Order.find_by(order_id: params[:id])
     end
 
     private
 
-    def update_order(id)
-      order = Order.find_by(id: id)
-      if order and order.status == 0
-        order.order_items.each do |item|
-          item.destroy
-        end
-        order_params[:order_items].each do |item|
-          OrderItem.create!(
-              {
-                  order_id: order.id,
-                  quantity: item[:quantity],
-                  product_id: item[:product][:id]
-              })
-        end
-      end
-      order
-    end
-
     def order_params
       params.require(:order).permit(
-          :id,
+          :order_id,
           :user_id,
-          order_items: [:order_id,
-                        :quantity,
-                        product: [:id, :name, :description, :price, :image_url]]
+          :status,
+          :created_at,
+          products: [
+              :quantity,
+              product: [:id, :name, :description, :price, :image_url]
+          ]
       )
     end
   end

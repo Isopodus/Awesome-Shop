@@ -18,11 +18,11 @@ class Home extends Component {
         let order = this.props.order;
         if (order) {
             let total = 0;
-            order.order_items.forEach(item => total += item.quantity * item.product.price);
+            order.products.forEach(item => total += item.quantity * item.product.price);
             this.setState({
                 cart: {
                     total: Math.round(total * 100) / 100,
-                    itemsCount: order.order_items.length
+                    itemsCount: order.products.length
                 }
             });
         }
@@ -36,7 +36,6 @@ class Home extends Component {
                 </div>
                 {this.props.user ? (
                     <div className="inline">
-
                         {this.props.order.status === 0 &&
                             <div className="menu_block">
                                 <div>You have {this.state.cart.itemsCount} items in your cart ({this.state.cart.total}$ total)</div>

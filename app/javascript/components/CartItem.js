@@ -8,7 +8,7 @@ class CartItem extends Component {
 
     deleteItem() {
         let order = this.props.order;
-        order.order_items = order.order_items.filter(item => item.product.id !== this.props.itemData.product.id);
+        order.products = order.products.filter(item => item.product.id !== this.props.itemData.product.id);
         this.props.orderHandler(order);
     }
 

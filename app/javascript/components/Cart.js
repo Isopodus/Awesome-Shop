@@ -14,17 +14,21 @@ class Cart extends Component {
         this.confirmOrder = this.confirmOrder.bind(this);
     }
 
-    confirmOrder() {
-        if (this.props.order.order_items.length > 0) {
-            this.saveOrder();
-            axios
-                .get('/api/orders/confirm_order/' + this.props.order.id)
-                .then(response => {
-                    if (response.status === 200) {
-                        window.location.reload();
-                        //console.log(response.data);
-                    }
-                });
+    confirmOrder(e) {
+        if (this.props.order.products.length > 0) {
+            this.saveOrder(e, () => {
+                axios
+                    .get('/api/orders/confirm_order/' + this.props.order.order_id)
+                    .then(response => {
+                        if (response.status === 200) {
+                            window.location.reload();
+                            //console.log(response);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
         } else {
             this.setState({
                 notice: <p>You can not confirm an empty order!</p>
@@ -32,23 +36,18 @@ class Cart extends Component {
         }
     }
 
-    saveOrder() {
-        // Build payload
-        let payload = {
-            order: {
-                id: this.props.order.id,
-                user_id: this.props.order.user_id,
-                order_items: this.props.order.order_items
-            }
-        };
-        // Send order
+    saveOrder(e, confirmCallback) {
         axios
-            .post('/api/orders/', payload)
+            .post('/api/orders/', {order: this.props.order})
             .then((response) => {
                 if (response.status === 200) {
-                    this.setState({
-                        notice: <p>Order saved successfully</p>
-                    });
+                    if (confirmCallback) {
+                        confirmCallback();
+                    } else {
+                        this.setState({
+                            notice: <p>Order saved successfully</p>
+                        });
+                    }
                 }
             })
             .catch((error) => {
@@ -64,7 +63,7 @@ class Cart extends Component {
             // Check if this order is active
             if (this.props.order.status === 0) {
                 let total = 0;
-                const itemsRendered = this.props.order.order_items.map((item) => {
+                const itemsRendered = this.props.order.products.map((item) => {
                     total += item.quantity * item.product.price;
                     return (
                         <CartItem
