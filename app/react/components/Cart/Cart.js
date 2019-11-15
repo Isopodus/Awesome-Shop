@@ -13,6 +13,7 @@ class Cart extends Component {
         };
         this.saveOrder = this.saveOrder.bind(this);
         this.confirmOrder = this.confirmOrder.bind(this);
+        this.setActive = this.setActive.bind(this);
     }
 
     confirmOrder(e) {
@@ -49,6 +50,7 @@ class Cart extends Component {
                             this.setState({
                                 notice: <p>Order saved successfully</p>
                             });
+                            this.setActive(response.data.order_id);
                         }
                     }
                 })
@@ -63,6 +65,20 @@ class Cart extends Component {
                 notice: <p>You can not save an empty order!</p>
             })
         }
+    }
+
+    setActive(id) {
+        axios
+            .get('/users/set_active_order/' + id)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location.reload();
+                    //console.log(response.data);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -95,7 +111,11 @@ class Cart extends Component {
                             user={this.props.user}
                             order={this.props.order}/>
                         <div className="wrapper">
-                            <h3>Order ID: {this.props.order.order_id}</h3>
+                            { this.props.order.order_id ? (
+                                <h3>Order ID: {this.props.order.order_id}</h3>
+                            ) : (
+                                <h3>Order</h3>
+                            )}
                             <table className="cart_table">
                                 <thead>
                                 <tr>

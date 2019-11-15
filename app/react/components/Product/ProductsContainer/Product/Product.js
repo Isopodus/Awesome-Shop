@@ -74,16 +74,14 @@ class Product extends Component {
                         <br/><br/><br/>
                     </div>
                 )}
-                {this.props.user && this.props.user.checked_order_id != null &&
-                <>
-                    <a onClick={() => this.addToCart(
-                        this.props.product.id,
-                        this.props.product.name,
-                        this.props.product.description,
-                        1,
-                        Number(this.props.product.price))
-                    } className="link">Add to cart</a>
-                </>
+                {this.props.user &&
+                <a onClick={() => this.addToCart(
+                    this.props.product.id,
+                    this.props.product.name,
+                    this.props.product.description,
+                    1,
+                    Number(this.props.product.price))
+                } className="link">Add to cart</a>
                 }
             </div>
         )

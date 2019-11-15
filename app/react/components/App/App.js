@@ -19,7 +19,7 @@ class App extends Component {
             order: {
                 order_id: null,
                 user_id: null,
-                status: -1,
+                status: 0,
                 products: []
             },
             loaded: false
@@ -42,6 +42,12 @@ class App extends Component {
                     if (response.status === 200) {
                         this.setState({
                             user: response.data,
+                            order: {
+                                order_id: null,
+                                user_id: response.data.id,
+                                status: 0,
+                                products: []
+                            },
                             loaded: true
                         });
                         let order = response.data.orders.find(order => order.order_id === response.data.checked_order_id);

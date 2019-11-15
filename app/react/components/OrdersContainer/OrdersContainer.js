@@ -11,27 +11,7 @@ class OrdersContainer extends Component {
         this.state = {
             notice: null
         };
-        this.createBlankOrder = this.createBlankOrder.bind(this);
         this.setNotice = this.setNotice.bind(this);
-    }
-
-    createBlankOrder() {
-        axios
-            .post('/api/orders', {
-                order: {
-                    order_id: null,
-                    user_id: this.props.user.id,
-                    status: 0,
-                    products: [{quantity: null, product: {id: null}}]
-                },
-            })
-            .then(response => {
-                //console.log(response.data)
-                window.location.reload();
-            })
-            .catch(error => {
-                console.log(error);
-            })
     }
 
     setNotice(notice) {
@@ -76,10 +56,7 @@ class OrdersContainer extends Component {
                     <br/>
                     {this.state.notice}
                     <br/>
-                    <a className="link" onClick={this.createBlankOrder}>Create new order</a>
-                    <br/><br/><br/>
                     <Link className="link" to="/">To the main page</Link>
-                    <br/><br/><br/>
                 </div>
             )
         } else {
