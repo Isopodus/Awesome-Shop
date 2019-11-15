@@ -1,0 +1,31 @@
+@import 'colors';
+
+.header {
+  padding: 25px;
+  height: 60px;
+  background: $back;
+  text-align: right;
+
+  .menu_header {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 2em;
+    color: white;
+    float: left;
+    margin-top: 15px
+  }
+
+  .menu_links_block {
+    display: inline-block;
+    margin-top: 9px;
+  }
+
+  .menu_block {
+    display: inline-block;
+  }
+
+  .cart_block {
+    margin-top: 25px;
+    margin-right: 44px;
+  }
+}

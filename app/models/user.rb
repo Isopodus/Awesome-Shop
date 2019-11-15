@@ -5,6 +5,6 @@ class User < ApplicationRecord
 
   validates :username, presence: :true, uniqueness: {case_sensitive: false}
 
-  has_many :orders, -> { order(status: :DESC, order_id: :ASC) }
+  has_many :orders
 
 end

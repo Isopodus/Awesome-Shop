@@ -62,6 +62,7 @@
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, ruby-2.6.4-p104) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.7.0, ruby-2.6.4-p104) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.9.1, ruby-2.6.4-p104) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="json-schema (v2.8.1, ruby-2.6.4-p104) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jsonapi-renderer (v0.2.2, ruby-2.6.4-p104) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v3.1.5, ruby-2.6.4-p104) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.3.1, ruby-2.6.4-p104) [gem]" level="application" />

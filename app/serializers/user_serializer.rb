@@ -3,12 +3,10 @@ class UserSerializer < ActiveModel::Serializer
 
   def orders
     added_orders = []
-    Order.where(user_id: object.id).map { |order_row|
-      if !added_orders.include?(order_row.order_id)
+    Order.where(user_id: object.id).order(status: :DESC).order(order_id: :ASC).map { |order_row|
+      if !added_orders.include?(order_row.order_id) && order_row.valid?
         added_orders.push(order_row.order_id)
         OrderSerializer.new(order_row)
-      else
-        nil
       end
     }.compact
   end

@@ -6,6 +6,7 @@ ruby '2.6.5'
 gem 'devise'
 gem 'react-rails'
 gem "active_model_serializers", require: true
+gem "json-schema"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'

@@ -1,0 +1,75 @@
+@import 'colors';
+
+.orders_container {
+  text-align: center;
+
+  .wrapper {
+    padding: 40px 50px 50px;
+    margin-top: 50px;
+    width: 80%;
+  }
+
+  .orders_header {
+    font-size: 1.5em;
+    margin-top: 0;
+  }
+
+  .orders_table {
+    background: $contrast;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    td {
+      padding: 15px;
+      text-align: center;
+
+
+      .link {
+        background: $dark_back;
+
+        &:hover {
+          background: $back;
+        }
+      }
+    }
+
+    th {
+      background: $dark_back;
+      padding: 10px;
+
+    }
+
+    .order_row {
+      &:hover {
+        background-color: $hover;
+        cursor: pointer;
+      }
+    }
+
+    .order_chosen {
+      background: $order_chosen;
+      &:hover {
+        background-color: $order_chosen;
+        cursor: pointer;
+      }
+
+      .link {
+        background: $contrast;
+
+        &:hover {
+          background: $back;
+        }
+      }
+    }
+
+    .order_processing {
+      background: $order_processing;
+    }
+
+    .order_complete {
+      background: $order_complete;
+    }
+  }
+}

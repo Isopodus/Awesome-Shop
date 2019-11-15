@@ -89,27 +89,26 @@ class Order extends Component {
         let buttons = null;
         if (this.props.orderData.status === 0 && this.props.user.checked_order_id !== this.props.orderData.order_id) {
             buttons = <>
-                <button onClick={this.setActive}>Set active</button>
-                <br/>
-                <button onClick={this.confirmOrder}>Confirm</button>
-                <br/>
-                <button onClick={this.deleteOrder}>Delete</button>
+                <a className="link" onClick={this.setActive}>Set active</a>
+                <br/><br/><br/>
+                <a className="link" onClick={this.confirmOrder}>Confirm</a>
+                <a className="link" onClick={this.deleteOrder}>Delete</a>
             </>
         } else if (this.props.orderData.status === 0) {
             buttons = <>
-                <button onClick={this.confirmOrder}>Confirm</button>
-                <br/>
-                <button onClick={this.deleteOrder}>Delete</button>
+                <a className="link" onClick={this.confirmOrder}>Confirm</a>
+                <br/><br/><br/>
+                <a className="link" onClick={this.deleteOrder}>Delete</a>
             </>
         }
 
         let className;
         if (this.props.user.checked_order_id === this.props.orderData.order_id && this.props.orderData.status === 0) {
-            className = 'blue_order';
+            className = 'order_row order_chosen';
         } else if (this.props.orderData.status === 1 || this.props.orderData.status === 2) {
-            className = 'yellow_order';
+            className = 'order_row order_processing';
         } else if (this.props.orderData.status === 3) {
-            className = 'green_order';
+            className = 'order_row order_complete';
         } else {
             className = 'order_row';
         }

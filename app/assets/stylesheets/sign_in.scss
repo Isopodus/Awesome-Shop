@@ -1,0 +1,22 @@
+.sign_in {
+  text-align: center;
+
+  .link {
+    width: 20%;
+    font-family: "Courier", serif;
+    font-size: 1em;
+  }
+
+  .mini_link {
+    color: white;
+  }
+
+  .wrapper {
+    width: 30%;
+  }
+
+  input[type=email], input[type=password] {
+    border-radius: 5px;
+    padding: 7px;
+  }
+}

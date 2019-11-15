@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "integer"
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "quantity": {
+      "type": [
+        "integer",
+        null
+      ]
+    },
+    "product_id": {
+      "type": [
+        "integer",
+        null
+      ]
+    },
+    "created_at": {
+      "type": [
+        "string",
+        null
+      ]
+    }
+  },
+  "required": [
+    "order_id",
+    "user_id"
+  ]
+}

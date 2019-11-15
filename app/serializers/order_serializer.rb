@@ -3,15 +3,15 @@ class OrderSerializer < ActiveModel::Serializer
 
   def products
     orders = Order.where(order_id: object.order_id)
-    orders.map { |order_row|
-      product = Product.find_by(id: order_row.product_id)
-      if product
-        {
-            quantity: order_row.quantity,
-            product: ProductSerializer.new(product)
-        }
-      else
-        nil
+    orders&.map { |order_row|
+      if order_row.valid?
+        product = Product.find_by_id(order_row.product_id)
+        if product&.valid?
+          {
+              quantity: order_row.quantity,
+              product: ProductSerializer.new(product)
+          }
+        end
       end
     }.compact
   end

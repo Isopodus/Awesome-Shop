@@ -9,8 +9,10 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    get "users/:id" => "users#index", defaults: {format: 'json'}
-    get "users/set_active_order/:id" => "users#set_active_order"
+    get "users" => "users#index", defaults: {format: 'json'}
+    get "users/:id" => "users#show", defaults: {format: 'json'}
+    get "users/set_active_order/:id" => "users#set_active_order", defaults: {format: 'json'}
+    get "users/toggle_admin/:id" => "users#toggle_admin", defaults: {format: 'json'}
   end
 
   # IMPORTANT #

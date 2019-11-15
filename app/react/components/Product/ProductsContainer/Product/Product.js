@@ -7,15 +7,10 @@ class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            quantity: 1
+            style: this.props.isInCart ? {background: "#428d46"} : null
         };
         this.deleteProduct = this.deleteProduct.bind(this);
         this.addToCart = this.addToCart.bind(this);
-        this.handleQuantity = this.handleQuantity.bind(this);
-    }
-
-    handleQuantity(event) {
-        this.setState({quantity: event.target.value});
     }
 
     deleteProduct(productId) {
@@ -60,35 +55,34 @@ class Product extends Component {
 
     render() {
         return (
-            <div className="product">
-                {this.props.product.name}<br/>
-                {this.props.product.description}<br/>
-                <b>{this.props.product.price}$</b><br/>
+            <div className="product" style={this.state.style}>
                 {this.props.product.image_url != null ? (
                     <div style={{backgroundImage: 'url(' + this.props.product.image_url + ')'}}
                          className="product_image"/>
                 ) : (
                     <div style={{backgroundImage: 'url(' + defaultImage + ')'}} className="product_image"/>
                 )}
-                <br/>
+                <h3>{this.props.product.name}</h3>
+                {this.props.product.description}<br/><br/>
+                <p className="price">{this.props.product.price}$</p><br/>
                 {this.props.user && this.props.user.role === 1 && (
                     <div>
-                        <a onClick={() => this.deleteProduct(this.props.product.id)} className="button_link">Delete
+                        <a onClick={() => this.deleteProduct(this.props.product.id)} className="link">Delete
                             product</a>
-                        <br/>
-                        <Link to={'/edit_product/' + this.props.product.id} className="button_link">Edit product</Link>
+                        <br/><br/><br/>
+                        <Link to={'/edit_product/' + this.props.product.id} className="link">Edit product</Link>
+                        <br/><br/><br/>
                     </div>
                 )}
-                {this.props.user.checked_order_id != null &&
+                {this.props.user && this.props.user.checked_order_id != null &&
                 <>
-                    <input type="number" min="1" max="100" defaultValue="1" onChange={this.handleQuantity}/>
                     <a onClick={() => this.addToCart(
                         this.props.product.id,
                         this.props.product.name,
                         this.props.product.description,
-                        Number(this.state.quantity),
+                        1,
                         Number(this.props.product.price))
-                    } className="button_link">Add to cart</a>
+                    } className="link">Add to cart</a>
                 </>
                 }
             </div>

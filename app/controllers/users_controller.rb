@@ -3,8 +3,16 @@ class UsersController < Devise::SessionsController
   respond_to :json
 
   def index
+    if user_signed_in? and current_user.role == 1
+      respond_with User.order(id: :ASC)
+    else
+      redirect_to root_path
+    end
+  end
+
+  def show
     if user_signed_in?
-      respond_with User.find_by(id: params[:id])
+      respond_with User.find_by_id(params[:id])
     else
       redirect_to root_path
     end
@@ -18,7 +26,7 @@ class UsersController < Devise::SessionsController
   def set_active_order
     if user_signed_in?
       current_user.checked_order_id = params[:id]
-      render json: current_user.save
+      respond_with json: current_user.save
     end
   end
 
@@ -35,6 +43,18 @@ class UsersController < Devise::SessionsController
         current_user.checked_order_id = nil
         current_user.save
       end
+    end
+  end
+
+  def toggle_admin
+    if user_signed_in? and current_user.role == 1
+      user = User.find_by_id(params[:id])
+      if user.role == 1
+        user.role = 0
+      else
+        user.role = 1
+      end
+      respond_with json: user.save
     end
   end
 end

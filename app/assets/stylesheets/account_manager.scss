@@ -1,0 +1,23 @@
+@import 'colors';
+
+.account_manager {
+  text-align: center;
+
+  .accounts_table {
+    background: $contrast;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    td {
+      padding: 15px;
+      text-align: center;
+    }
+
+    th {
+      background: $dark_back;
+      padding: 10px;
+    }
+  }
+}

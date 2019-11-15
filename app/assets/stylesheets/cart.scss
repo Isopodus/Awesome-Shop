@@ -1,17 +1,46 @@
-.cart_table {
-  border: solid 1px black;
-  border-collapse: collapse;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+@import 'colors';
 
-  td, th {
-    border: solid 2px black;
-    padding: 5px;
-  }
+.cart_container {
+  text-align: center;
 
-  .order_item_row:hover {
-    background-color: #c8c8c8;
-    cursor: pointer;
+  .cart_table {
+    background: $contrast;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    .link {
+      background: $dark_back;
+
+      &:hover {
+        background: $back;
+      }
+    }
+
+    .quantity_field {
+      width: 100%;
+    }
+
+    .name_field {
+      width: 50%;
+    }
+
+    td {
+      padding: 15px;
+      text-align: center;
+    }
+
+    th {
+      background: $dark_back;
+      padding: 10px;
+    }
+
+    .order_item_row {
+      &:hover {
+        background-color: $hover;
+        cursor: pointer;
+      }
+    }
   }
 }

@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Product from "./Product";
+import Product from "./Product/Product";
 
-class ProductsBlock extends Component {
+class ProductsContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {products: []};
@@ -14,7 +14,7 @@ class ProductsBlock extends Component {
         axios
             .get('/api/products')
             .then(response => {
-                if(this._isMounted) {
+                if (this._isMounted) {
                     this.setState({products: response.data});
                 }
             });
@@ -24,14 +24,21 @@ class ProductsBlock extends Component {
         this.reloadProducts();
         this._isMounted = true;
     }
+
     componentWillUnmount() {
         this._isMounted = false;
     }
 
     render() {
         const productsRendered = this.state.products.map((product) => {
+            // Check if this product is already in cart and give it green color if so
+            let isInCart = false;
+            if (this.props.order.products.findIndex(item => item.product.id === product.id) >= 0) {
+                isInCart = true;
+            }
             return <Product
                 product={product}
+                isInCart={isInCart}
                 key={product.id}
                 user={this.props.user}
                 order={this.props.order}
@@ -40,7 +47,7 @@ class ProductsBlock extends Component {
         }, this);
 
         return (
-            <div className="products_block">
+            <div className="products_container">
                 <br/>
                 {productsRendered}
             </div>
@@ -48,4 +55,4 @@ class ProductsBlock extends Component {
     }
 }
 
-export default ProductsBlock
+export default ProductsContainer

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 import $ from 'jquery'
 import {Link} from "react-router-dom";
 
-class ProductAdd extends Component {
+class ProductEdit extends Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +20,26 @@ class ProductAdd extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        axios
+            .get('/api/products',{
+                params: {
+                    ids: [this.props.match.params.id]
+                }
+            })
+            .then(response => {
+                this.setState({
+                    name: response.data[0].name,
+                    description: response.data[0].description,
+                    price: response.data[0].price,
+                    image_url: response.data[0].image_url
+                });
+            });
+    }
+
+
     handleSubmit(e) {
+        e.preventDefault();
         const formData = new FormData();
         formData.append('product[name]', this.state.name);
         formData.append('product[description]', this.state.description);
@@ -29,15 +49,15 @@ class ProductAdd extends Component {
         }
 
         $.ajax({
-            url: '/api/products',
-            method: 'POST',
+            url: '/api/products/' + this.props.match.params.id,
+            method: 'PATCH',
             data: formData,
             contentType: false,
             processData: false
 
-        }).done(response => {
+        }).then((response) => {
             //console.log(response);
-        }).fail((error) => {
+        }).catch((error) => {
             console.log(error);
         });
     }
@@ -68,31 +88,28 @@ class ProductAdd extends Component {
                         <h1>Hello, admin!</h1>
                         <form onSubmit={this.handleSubmit}>
                             Name:<br/>
-                            <input type="text" name="name" onChange={this.handleChange} required/><br/>
+                            <input type="text" name="name" onChange={this.handleChange} required defaultValue={this.state.name}/><br/>
                             Description:<br/>
-                            <textarea name="description" onChange={this.handleChange}/><br/>
+                            <textarea name="description" onChange={this.handleChange} defaultValue={this.state.description}/><br/>
                             Price:<br/>
                             <input type="number" step="0.01" min="0" name="price" onChange={this.handleChange}
-                                   required/><br/>
+                                   required value={this.state.price}/><br/>
                             Image:<br/>
                             <input type="file" name="image" accept=".jpg, .jpeg, .png, .gif"
-                                   onChange={this.handleFile}/><br/>
+                                   onChange={this.handleFile} defaultValue={this.state.image_url}/><br/>
                             {preview}
                             <br/><br/>
-                            <input type="submit" value="Add new product"/>
+                            <input type="submit" value="Submit editing"/>
                         </form>
                         <br/>
-                        <Link to="/">To the main page</Link>
+                        <a href="/">To the main page</a>
                     </div>
                 ) : (
-                    <div>
-                        <h1>403 - Forbidden</h1><br/>
-                        <Link to="/">To the main page</Link>
-                    </div>
+                    <h1>403 - Forbidden</h1>
                 )}
             </div>
         )
     }
 }
 
-export default ProductAdd
+export default ProductEdit

@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import axios from "axios";
 import Cookies from 'universal-cookie';
-import Home from './Home'
-import ProductAdd from "./ProductAdd";
-import ProductEdit from "./ProductEdit";
-import OrdersBlock from "./OrdersBlock";
-import Cart from "./Cart";
+import Home from '../Home/Home'
+import ProductAdd from "../Product/ProductAdd/ProductAdd";
+import ProductEdit from "../Product/ProductEdit/ProductEdit";
+import OrdersContainer from "../OrdersContainer/OrdersContainer";
+import Cart from "../Cart/Cart";
+import Account from "../Account/Account";
+import AccountManager from "../AccountManager/AccountManager";
 
 class App extends Component {
     constructor(props) {
@@ -40,12 +42,6 @@ class App extends Component {
                     if (response.status === 200) {
                         this.setState({
                             user: response.data,
-                            order: {
-                                order_id: null,
-                                user_id: response.data.id,
-                                status: -1,
-                                products: []
-                            },
                             loaded: true
                         });
                         let order = response.data.orders.find(order => order.order_id === response.data.checked_order_id);
@@ -61,7 +57,6 @@ class App extends Component {
             this.setState({
                 loaded: true
             });
-            localStorage.clear();
         }
     }
 
@@ -82,12 +77,20 @@ class App extends Component {
                             <Route exact path="/edit_product/:id" component={(props) => <ProductEdit
                                 user={this.state.user}
                                 {...props}/>}/>
-                            <Route exact path="/account/orders" component={() => <OrdersBlock
+                            <Route exact path="/account" component={() => <Account
+                                order={this.state.order}
+                                user={this.state.user}
+                            />}/>
+                            <Route exact path="/account/manager" component={() => <AccountManager
+                                user={this.state.user}
+                                order={this.state.order}
+                            />}/>
+                            <Route exact path="/account/orders" component={() => <OrdersContainer
                                 user={this.state.user}
                                 order={this.state.order}
                                 orderHandler={this.orderHandler}
                             />}/>
-                            <Route exact path="/account/cart" component={() => <Cart
+                            <Route exact path="/account/cart" render={() => <Cart
                                 user={this.state.user}
                                 order={this.state.order}
                                 orderHandler={this.orderHandler}
