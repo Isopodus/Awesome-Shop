@@ -2,35 +2,27 @@ import React from 'react'
 
 function SignUpForm(props) {
     return (
-        <div className="register">
-            {props.notice && <div>{props.notice}</div>}
-            {props.m_alert && <div>{props.m_alert}</div>}
-            <div className="field">
-                <label htmlFor="user_username">Username</label><br/>
-                <input autoFocus="autofocus" autoComplete="username" type="text" name="user[username]" id="user_username"/>
-            </div>
+        <div className="sign_up">
+            <div className="wrapper">
+                <h2>Sign up</h2>
+                {props.notice && <div>{props.notice}</div>}
+                {props.m_alert && <div>{props.m_alert}</div>}
+                Username<br/>
+                <input autoFocus="autofocus" autoComplete="username" type="text" name="user[username]"/><br/><br/>
 
-            <div className="field">
-                <label htmlFor="user_email">Email</label><br/>
-                <input autoComplete="email" type="email" name="user[email]" id="user_email"/>
-            </div>
+                Email<br/>
+                <input autoComplete="email" type="email" name="user[email]"/><br/><br/>
 
-            <div className="field">
-                <label htmlFor="user_password">Password</label>
-                <em>(6 characters minimum)</em><br/>
-                <input autoComplete="new-password" type="password" name="user[password]" id="user_password"/>
-            </div>
+                Password<br/>
+                <input autoComplete="new-password" type="password" name="user[password]" minLength="6"/><br/><br/>
 
-            <div className="field">
-                <label htmlFor="user_password_confirmation">Password confirmation</label><br/>
-                <input autoComplete="new-password" type="password" name="user[password_confirmation]"
-                       id="user_password_confirmation"/>
-            </div>
+                Password confirmation<br/>
+                <input autoComplete="new-password" type="password" name="user[password_confirmation]"/><br/><br/>
 
-            <div className="actions">
-                <input type="submit" name="commit" value="Sign up" data-disable-with="Sign up"/>
+                <input className="link" type="submit" name="commit" value="Sign up"/><br/>
+                <a href="/users/sign_in" className="mini_link">Sign in</a><br/>
+                <a href="/" className="mini_link">To the main page</a>
             </div>
-            <a href="/app/assets/config">Back to the main page</a>
         </div>
     )
 }

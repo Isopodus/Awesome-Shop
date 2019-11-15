@@ -1,0 +1,22 @@
+.confirmation_resend {
+  text-align: center;
+
+  .link {
+    width: 25%;
+    font-family: "Courier", serif;
+    font-size: 1em;
+  }
+
+  .mini_link {
+    color: white;
+  }
+
+  .wrapper {
+    width: 30%;
+  }
+
+  input[type=email], input[type=password], input[type=text] {
+    border-radius: 5px;
+    padding: 7px;
+  }
+}

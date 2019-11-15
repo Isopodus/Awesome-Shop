@@ -7,16 +7,14 @@ function SignInForm(props) {
                 <h2>Log in</h2>
                 {props.notice && <div>{props.notice}</div>}
                 {props.m_alert && <div>{props.m_alert}</div>}
-                <div className="form_fields">
-                    Email<br/>
-                    <input autoFocus="autofocus" autoComplete="email" type="email" name="user[email]"/><br/><br/>
-                    Password<br/>
-                    <input autoComplete="current-password" type="password" name="user[password]"/><br/><br/>
+                Email<br/>
+                <input autoFocus="autofocus" autoComplete="email" type="email" name="user[email]"/><br/><br/>
+                Password<br/>
+                <input autoComplete="current-password" type="password" name="user[password]"/><br/><br/>
 
-                    <input name="user[remember_me]" type="hidden" value="0"/>
-                    <input type="checkbox" value="1" name="user[remember_me]" id="remember_me"/>
-                    <label htmlFor="remember_me">Remember me</label>
-                </div>
+                <input name="user[remember_me]" type="hidden" value="0"/>
+                <input type="checkbox" value="1" name="user[remember_me]" id="remember_me"/>
+                <label htmlFor="remember_me">Remember me</label><br/>
 
                 <input className="link" type="submit" name="commit" value="Log in"/>
                 <br/><br/>
