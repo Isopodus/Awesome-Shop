@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import $ from 'jquery'
-import {Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 class ProductAdd extends Component {
 
@@ -20,7 +20,6 @@ class ProductAdd extends Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
         const formData = new FormData();
         formData.append('product[name]', this.state.name);
         formData.append('product[description]', this.state.description);
@@ -63,33 +62,32 @@ class ProductAdd extends Component {
         const preview = this.state.image_url ?
             <img src={this.state.image_url} alt="Preview" className="preview_image"/> : null;
         return (
-            <div className="product_add">
+            <div>
                 {this.props.user && this.props.user.role === 1 ? (
-                    <div>
-                        <h1>Hello, admin!</h1>
-                        <form onSubmit={this.handleSubmit}>
-                            Name:<br/>
-                            <input type="text" name="name" onChange={this.handleChange} required/><br/>
-                            Description:<br/>
-                            <textarea name="description" onChange={this.handleChange}/><br/>
-                            Price:<br/>
-                            <input type="number" step="0.01" min="0" name="price" onChange={this.handleChange}
-                                   required/><br/>
-                            Image:<br/>
-                            <input type="file" name="image" accept=".jpg, .jpeg, .png, .gif"
-                                   onChange={this.handleFile}/><br/>
-                            {preview}
-                            <br/><br/>
-                            <input type="submit" value="Add new product"/>
-                        </form>
-                        <br/>
-                        <a href="/">To the main page</a>
+                    <div className="product_add">
+                        <div className="wrapper">
+                            <h2>New product</h2>
+                            <form onSubmit={this.handleSubmit}>
+                                Name:<br/>
+                                <input type="text" name="name" onChange={this.handleChange} required/><br/><br/>
+                                Description:<br/>
+                                <textarea name="description" onChange={this.handleChange}/><br/><br/>
+                                Price:<br/>
+                                <input type="number" step="0.01" min="0" name="price" onChange={this.handleChange}
+                                       required/><br/><br/>
+                                Image:<br/>
+                                <input type="file" name="image" accept=".jpg, .jpeg, .png, .gif"
+                                       onChange={this.handleFile}/><br/>
+                                {preview}
+                                <br/>
+                                <input type="submit" value="Add new product" className="link"/>
+                            </form>
+                            <br/>
+                            <a href="/" className="mini_link">To the main page</a>
+                        </div>
                     </div>
                 ) : (
-                    <div>
-                        <h1>403 - Forbidden</h1><br/>
-                        <a href="/">To the main page</a>
-                    </div>
+                    <Redirect to='/'/>
                 )}
             </div>
         )

@@ -1,0 +1,28 @@
+.product_add {
+  text-align: center;
+
+  .link {
+    width: 50%;
+    font-family: "Courier", serif;
+    font-size: 1em;
+  }
+
+  .mini_link {
+    color: white;
+  }
+
+  .wrapper {
+    width: 30%;
+  }
+
+  input[type=text], input[type=number], textarea {
+    border-radius: 5px;
+    padding: 7px;
+  }
+
+  textarea {
+    width: 70%;
+    height: 150px;
+    resize: none;
+  }
+}

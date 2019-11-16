@@ -3,7 +3,7 @@
 .product {
   background: $tile_back;
   border-radius: 5px;
-  min-width: 200px;
+  min-width: 225px;
   width: 15%;
   margin: 15px;
   padding: 10px 10px 20px;
@@ -17,17 +17,21 @@
     margin-top: 0;
     margin-bottom: 0;
   }
+
+  .description {
+    white-space: pre-line;
+  }
 }
 
 .product_image {
   overflow: hidden;
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
   width: 100%;
-  height: 200px;
+  height: 225px;
 }
 
 .preview_image {
-  width: 20%;
-  height: 20%;
+  width: 40%;
+  height: 40%;
 }

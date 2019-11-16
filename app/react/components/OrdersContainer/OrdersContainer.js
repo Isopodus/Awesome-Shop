@@ -12,6 +12,27 @@ class OrdersContainer extends Component {
             notice: null
         };
         this.setNotice = this.setNotice.bind(this);
+        this.createBlankOrder = this.createBlankOrder.bind(this);
+    }
+
+    createBlankOrder() {
+        this.props.orderHandler({
+            order_id: null,
+            user_id: this.props.user.id,
+            status: 0,
+            products: []
+        });
+        axios
+            .get('/users/set_active_order/' + null)
+            .then(response => {
+                if (response.status === 200) {
+                    window.location.href = '/account/cart';
+                    //console.log(response.data);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     setNotice(notice) {
@@ -20,16 +41,23 @@ class OrdersContainer extends Component {
 
     render() {
         if (this.props.user) {
-            const ordersRendered = this.props.user.orders.map((order) => {
-                return (
-                    <Order
-                        user={this.props.user}
-                        orderData={order}
-                        setNotice={this.setNotice}
-                        key={order.order_id}
-                    />
-                )
-            });
+            let ordersRendered;
+            if (this.props.user.orders.length > 0) {
+                ordersRendered = this.props.user.orders.map((order) => {
+                    return (
+                        <Order
+                            user={this.props.user}
+                            orderData={order}
+                            setNotice={this.setNotice}
+                            key={order.order_id}
+                        />
+                    )
+                });
+            } else {
+                ordersRendered = <tr>
+                    <td colSpan="6">You have no orders saved</td>
+                </tr>
+            }
             return (
                 <div className="orders_container">
                     <Header
@@ -55,7 +83,8 @@ class OrdersContainer extends Component {
                     </div>
                     <br/>
                     {this.state.notice}
-                    <br/>
+                    <a className="link" onClick={this.createBlankOrder}>Create new order</a>
+                    <br/><br/><br/>
                     <Link className="link" to="/">To the main page</Link>
                 </div>
             )

@@ -3,6 +3,10 @@
 .cart_container {
   text-align: center;
 
+  .wrapper {
+    width: 60%;
+  }
+
   .cart_table {
     background: $contrast;
     border-collapse: collapse;
@@ -19,11 +23,11 @@
     }
 
     .quantity_field {
-      width: 100%;
+      width: 50%;
     }
 
     .name_field {
-      width: 50%;
+      width: 30%;
     }
 
     td {

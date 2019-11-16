@@ -63,7 +63,7 @@ class Product extends Component {
                     <div style={{backgroundImage: 'url(' + defaultImage + ')'}} className="product_image"/>
                 )}
                 <h3>{this.props.product.name}</h3>
-                {this.props.product.description}<br/><br/>
+                <p className="description">{this.props.product.description}</p>
                 <p className="price">{this.props.product.price}$</p><br/>
                 {this.props.user && this.props.user.role === 1 && (
                     <div>
