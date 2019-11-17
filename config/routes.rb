@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     resources :products, only: [:index, :create, :update, :destroy]
-    resources :orders, only: [:create, :update, :destroy]
+    resources :orders, only: [:create, :update, :destroy, :show]
     get "orders/confirm_order/:id" => "orders#confirm_order"
   end
 

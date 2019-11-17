@@ -20,6 +20,9 @@ class Product extends Component {
                 .then((response) => {
                     if (response.status === 204) {
                         this.props.reloadProducts();
+                    } else {
+                        alert("Unexpected error occurred");
+                        window.location.href = '/';
                     }
                 })
                 .catch((error) => {

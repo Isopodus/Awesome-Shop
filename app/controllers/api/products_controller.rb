@@ -25,7 +25,7 @@ module API
 
     def destroy
       begin
-        destroy_returned = Product.destroy(params[:id])
+        destroy_returned = Product.destroy!(params[:id])
         if destroy_returned
           respond_with destroy_returned
         else
@@ -39,7 +39,7 @@ module API
     def update
       product = Product.find_by_id(params[:id])
       begin
-        if product&.valid? and product.update(product_params) and product.valid?
+        if product&.valid? and product.update!(product_params) and product.valid?
           respond_with Product, json: product
         else
           respond_with Product, json: {}, status: 500

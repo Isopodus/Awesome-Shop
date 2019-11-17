@@ -37,10 +37,14 @@ module API
       end
     end
 
+    def show
+      respond_with Order.find_by(order_id: params[:id])
+    end
+
     def destroy
       begin
         Order.where(order_id: params[:id]).each do |order_row|
-          order_row.destroy
+          order_row.destroy!
         end
         respond_with true
       rescue StandardError => e
@@ -52,7 +56,7 @@ module API
       begin
         Order.where(order_id: params[:id]).each do |order_row|
           order_row.status = 1
-          order_row.save
+          order_row.save!
         end
         respond_with Order, json: Order.find_by(order_id: params[:id])
       rescue StandardError => e

@@ -28,6 +28,9 @@ class OrdersContainer extends Component {
                 if (response.status === 200) {
                     window.location.href = '/account/cart';
                     //console.log(response.data);
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             })
             .catch(error => {

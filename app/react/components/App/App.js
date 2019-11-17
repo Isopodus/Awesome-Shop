@@ -9,6 +9,7 @@ import OrdersContainer from "../OrdersContainer/OrdersContainer";
 import Cart from "../Cart/Cart";
 import Account from "../Account/Account";
 import AccountManager from "../AccountManager/AccountManager";
+import OrderPage from "../OrderPage/OrderPage";
 
 class App extends Component {
     constructor(props) {
@@ -54,6 +55,9 @@ class App extends Component {
                         if (order) {
                             this.orderHandler(order);
                         }
+                    } else {
+                        alert("Unexpected error occurred");
+                        window.location.href = '/';
                     }
                 })
                 .catch(error => {
@@ -82,7 +86,8 @@ class App extends Component {
                                 user={this.state.user}/>}/>
                             <Route exact path="/edit_product/:id" component={(props) => <ProductEdit
                                 user={this.state.user}
-                                {...props}/>}/>
+                                {...props}
+                            />}/>
                             <Route exact path="/account" component={() => <Account
                                 order={this.state.order}
                                 user={this.state.user}
@@ -95,6 +100,11 @@ class App extends Component {
                                 user={this.state.user}
                                 order={this.state.order}
                                 orderHandler={this.orderHandler}
+                            />}/>
+                            <Route exact path="/account/orders/:id" component={(props) => <OrderPage
+                                user={this.state.user}
+                                order={this.state.order}
+                                {...props}
                             />}/>
                             <Route exact path="/account/cart" render={() => <Cart
                                 user={this.state.user}

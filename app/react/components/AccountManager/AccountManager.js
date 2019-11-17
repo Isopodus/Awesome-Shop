@@ -21,6 +21,9 @@ class AccountManager extends Component {
                     this.setState({
                         users: response.data
                     })
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             })
     }

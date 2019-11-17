@@ -25,8 +25,12 @@ class UsersController < Devise::SessionsController
 
   def set_active_order
     if user_signed_in?
-      current_user.checked_order_id = params[:id]
-      respond_with json: current_user.save
+      begin
+        current_user.checked_order_id = params[:id]
+        respond_with json: current_user.save!
+      rescue Standarderror => e
+        raise StandardError, e.message
+      end
     end
   end
 
@@ -40,8 +44,12 @@ class UsersController < Devise::SessionsController
         end
       end
       unless found
-        current_user.checked_order_id = nil
-        current_user.save
+        begin
+          current_user.checked_order_id = nil
+          current_user.save!
+        rescue Standarderror => e
+          raise StandardError, e.message
+        end
       end
     end
   end
@@ -54,7 +62,11 @@ class UsersController < Devise::SessionsController
       else
         user.role = 1
       end
-      respond_with json: user.save
+      begin
+        respond_with json: user.save!
+      rescue Standarderror => e
+        raise StandardError, e.message
+      end
     end
   end
 end

@@ -14,8 +14,13 @@ class ProductsContainer extends Component {
         axios
             .get('/api/products')
             .then(response => {
-                if (this._isMounted) {
-                    this.setState({products: response.data});
+                if (response.status === 200) {
+                    if (this._isMounted) {
+                        this.setState({products: response.data});
+                    }
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             });
     }

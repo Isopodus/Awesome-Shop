@@ -18,6 +18,9 @@ class AccountRow extends Component {
                 if (response.status === 200) {
                     window.location.reload();
                     //console.log(response.data);
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             })
             .catch(error => {

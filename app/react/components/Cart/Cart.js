@@ -25,6 +25,9 @@ class Cart extends Component {
                         if (response.status === 200) {
                             window.location.reload();
                             //console.log(response);
+                        } else {
+                            alert("Unexpected error occurred");
+                            window.location.href = '/';
                         }
                     })
                     .catch(error => {
@@ -52,6 +55,9 @@ class Cart extends Component {
                             });
                             this.setActive(response.data.order_id);
                         }
+                    } else {
+                        alert("Unexpected error occurred");
+                        window.location.href = '/';
                     }
                 })
                 .catch((error) => {
@@ -74,6 +80,9 @@ class Cart extends Component {
                 if (response.status === 200) {
                     window.location.reload();
                     //console.log(response.data);
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             })
             .catch(error => {
@@ -111,7 +120,7 @@ class Cart extends Component {
                             user={this.props.user}
                             order={this.props.order}/>
                         <div className="wrapper">
-                            { this.props.order.order_id ? (
+                            {this.props.order.order_id ? (
                                 <h3>Order ID: {this.props.order.order_id}</h3>
                             ) : (
                                 <h3>Order</h3>

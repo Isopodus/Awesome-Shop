@@ -4,7 +4,7 @@
   text-align: center;
 
   .wrapper {
-    padding: 40px 50px 50px;
+    padding: 40px 60px 60px;
     margin-top: 50px;
     width: 60%;
   }
@@ -51,7 +51,7 @@
     .order_chosen {
       background: $order_chosen;
       &:hover {
-        background-color: $order_chosen;
+        background-color: $order_chosen_hover;
         cursor: pointer;
       }
 
@@ -64,12 +64,22 @@
       }
     }
 
-    .order_processing {
-      background: $order_processing;
+    .status_incomplete {
+      padding: 10px;
+      border-radius: 7px;
+      background: $status_incomplete;
     }
 
-    .order_complete {
-      background: $order_complete;
+    .status_processing {
+      padding: 10px;
+      border-radius: 7px;
+      background: $status_processing;
+    }
+
+    .status_complete {
+      padding: 10px;
+      border-radius: 7px;
+      background: $status_complete;
     }
   }
 }

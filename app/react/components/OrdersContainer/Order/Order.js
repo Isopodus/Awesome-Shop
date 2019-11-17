@@ -1,16 +1,19 @@
 import React, {Component} from 'react'
 import axios from "axios";
+import {Redirect} from "react-router-dom";
 
 class Order extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            notice: null
+            notice: null,
+            redirect: null
         };
 
         this.setActive = this.setActive.bind(this);
         this.confirmOrder = this.confirmOrder.bind(this);
         this.deleteOrder = this.deleteOrder.bind(this);
+        this.showOrder = this.showOrder.bind(this);
     }
 
     setActive() {
@@ -20,6 +23,9 @@ class Order extends Component {
                 if (response.status === 200) {
                     window.location.reload();
                     //console.log(response.data);
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
                 }
             })
             .catch(error => {
@@ -35,6 +41,9 @@ class Order extends Component {
                     if (response.status === 200) {
                         window.location.reload();
                         //console.log(response.data);
+                    } else {
+                        alert("Unexpected error occurred");
+                        window.location.href = '/';
                     }
                 })
                 .catch(error => {
@@ -53,12 +62,21 @@ class Order extends Component {
                     if (response.status === 204) {
                         window.location.reload();
                         //console.log(response.data);
+                    } else {
+                        alert("Unexpected error occurred");
+                        window.location.href = '/';
                     }
                 })
                 .catch(error => {
                     console.log(error);
                 });
         }
+    }
+
+    showOrder() {
+        this.setState({
+            redirect: <Redirect to={'/account/orders/' + this.props.orderData.order_id}/>
+        });
     }
 
     render() {
@@ -76,8 +94,6 @@ class Order extends Component {
         } else if (this.props.orderData.status === 1) {
             status = 'Processing';
         } else if (this.props.orderData.status === 2) {
-            status = 'Delivery pending';
-        } else if (this.props.orderData.status === 3) {
             status = 'Complete';
         }
 
@@ -102,26 +118,32 @@ class Order extends Component {
             </>
         }
 
-        let className;
+        let rowClassName = 'order_row';
+        let statusClassName = 'status_incomplete';
         if (this.props.user.checked_order_id === this.props.orderData.order_id && this.props.orderData.status === 0) {
-            className = 'order_row order_chosen';
-        } else if (this.props.orderData.status === 1 || this.props.orderData.status === 2) {
-            className = 'order_row order_processing';
-        } else if (this.props.orderData.status === 3) {
-            className = 'order_row order_complete';
-        } else {
-            className = 'order_row';
+            rowClassName = 'order_row order_chosen';
+        }
+
+        if (this.props.orderData.status === 1) {
+            statusClassName = 'status_processing';
+        } else if (this.props.orderData.status === 2) {
+            statusClassName = 'status_complete';
         }
 
         return (
-            <tr className={className}>
-                <td>{this.props.orderData.order_id}</td>
-                <td>{datetimeFormatter.format(Date.parse(this.props.orderData.created_at))}</td>
-                <td>{status}</td>
-                <td>{this.props.orderData.products.length}</td>
-                <td><b>{total}$</b></td>
-                <td>{buttons}</td>
-            </tr>
+            <>
+                {this.state.redirect}
+                <tr className={rowClassName} onClick={this.showOrder}>
+                    <td>{this.props.orderData.order_id}</td>
+                    <td>{datetimeFormatter.format(Date.parse(this.props.orderData.created_at))}</td>
+                    <td>
+                        <div className={statusClassName}>{status}</div>
+                    </td>
+                    <td>{this.props.orderData.products.length}</td>
+                    <td><b>{total}$</b></td>
+                    <td>{buttons}</td>
+                </tr>
+            </>
         )
     }
 }

@@ -2,32 +2,15 @@ import React, {Component} from 'react'
 import {Link} from "react-router-dom";
 
 class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            cart: {
-                itemsCount: 0,
-                total: 0
-            }
-        };
-    }
-
-
-    componentDidMount() {
-        let order = this.props.order;
-        if (order) {
-            let total = 0;
-            order.products.forEach(item => total += item.quantity * item.product.price);
-            this.setState({
-                cart: {
-                    total: Math.round(total * 100) / 100,
-                    itemsCount: order.products.length
-                }
-            });
-        }
-    }
-
     render() {
+        let total = 0;
+        let itemsCount = 0;
+        if (this.props.order) {
+            this.props.order.products.forEach(item => total += item.quantity * item.product.price);
+            itemsCount = this.props.order.products.length;
+        }
+        total = Math.round(total * 100) / 100;
+
         return (
             <div className="header">
                 <Link className="menu_header" to="/">
@@ -46,7 +29,7 @@ class Header extends Component {
                         </div>
                         {this.props.order.status === 0 &&
                         <div className="cart_block">
-                            <div>You have {this.state.cart.itemsCount} items in your cart ({this.state.cart.total}$
+                            <div>You have {itemsCount} items in your cart ({total}$
                                 total)
                             </div>
                         </div>

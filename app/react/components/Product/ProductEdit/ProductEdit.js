@@ -29,13 +29,18 @@ class ProductEdit extends Component {
                 }
             })
             .then(response => {
-                this.setState({
-                    id: response.data[0].id,
-                    name: response.data[0].name,
-                    description: response.data[0].description,
-                    price: response.data[0].price,
-                    image_url: response.data[0].image_url
-                });
+                if (response.status === 200) {
+                    this.setState({
+                        id: response.data[0].id,
+                        name: response.data[0].name,
+                        description: response.data[0].description,
+                        price: response.data[0].price,
+                        image_url: response.data[0].image_url
+                    });
+                } else {
+                    alert("Unexpected error occurred");
+                    window.location.href = '/';
+                }
             });
     }
 
