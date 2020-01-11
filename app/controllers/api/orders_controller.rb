@@ -38,7 +38,11 @@ module API
     end
 
     def show
-      respond_with Order.find_by(order_id: params[:id])
+      if user_signed_in? and UserSerializer.new(current_user).orders.any? { |order| p order.object.order_id == params[:id].to_i }
+        respond_with Order.find_by(order_id: params[:id])
+      else
+        redirect_to root_path
+      end
     end
 
     def destroy

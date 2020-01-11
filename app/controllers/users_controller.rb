@@ -11,11 +11,7 @@ class UsersController < Devise::SessionsController
   end
 
   def show
-    if user_signed_in?
       respond_with User.find_by_id(params[:id])
-    else
-      redirect_to root_path
-    end
   end
 
   def destroy
@@ -28,7 +24,7 @@ class UsersController < Devise::SessionsController
       begin
         current_user.checked_order_id = params[:id]
         respond_with json: current_user.save!
-      rescue Standarderror => e
+      rescue StandardError => e
         raise StandardError, e.message
       end
     end

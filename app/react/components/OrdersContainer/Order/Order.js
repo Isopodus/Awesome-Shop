@@ -16,7 +16,8 @@ class Order extends Component {
         this.showOrder = this.showOrder.bind(this);
     }
 
-    setActive() {
+    setActive(e) {
+        e.stopPropagation();
         axios
             .get('/users/set_active_order/' + this.props.orderData.order_id)
             .then(response => {
@@ -33,7 +34,8 @@ class Order extends Component {
             });
     }
 
-    confirmOrder() {
+    confirmOrder(e) {
+        e.stopPropagation();
         if (this.props.orderData.products.length > 0) {
             axios
                 .get('/api/orders/confirm_order/' + this.props.orderData.order_id)
@@ -54,7 +56,8 @@ class Order extends Component {
         }
     }
 
-    deleteOrder() {
+    deleteOrder(e) {
+        e.stopPropagation();
         if (window.confirm("Are you sure?")) {
             axios
                 .delete('/api/orders/' + this.props.orderData.order_id)

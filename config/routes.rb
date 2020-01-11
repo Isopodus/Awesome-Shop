@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :products, only: [:index, :create, :update, :destroy]
     resources :orders, only: [:create, :update, :destroy, :show]
     get "orders/confirm_order/:id" => "orders#confirm_order"
+    mount_devise_token_auth_for 'User', at: 'auth'
   end
 
   devise_scope :user do
